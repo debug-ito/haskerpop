@@ -1,6 +1,7 @@
 # The official (?) apache image
 
-docker run --name gremlin -p 8182:8182 tinkerpop/gremlin-server:3.4.2
+docker run --name gremlin -p 45940:8182 jeffreybbrown/gremlin:untested
+# docker run --name gremlin -p 8182:8182 tinkerpop/gremlin-server:3.4.2
 
 
 # Mine
