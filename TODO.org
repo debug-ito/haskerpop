@@ -1,16 +1,25 @@
 * TODO configure Gremlin Server to use neo4j
-** DONE clone https://github.com/apache/tinkerpop/
-** DONE use the gremlin-server folder in it
-** add (after modifying) config files from smsn
-Note that the yaml file refers to the properties file.
-*** 1) neo4j-smsn.properties
-~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/neo4j-smsn.properties
-It tells Neo4j where to store its data, and configures the store.
-*** 2) gremlin-server-smsn.yaml
-~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/gremlin-server-smsn.yaml
-  (it's also in docker-smsn)
-It tells Gremlin Server to use the Neo4j graph you configured in (1).
-** infer from the docker-smsn Dockerfile how to use those config files
+** TODO : using both
+*** experimental strategy
+Enter Bash in the official gserver Dockerfile,
+  mounting a folder with useful stuff.
+Copy things around.
+Try `submitToGremlinServer` until it works.
+*** experimental records
+** failed: using tinkerpop gremlin-server source
+*** DONE clone https://github.com/apache/tinkerpop/
+*** DONE use the gremlin-server folder in it
+*** add (after modifying) config files from smsn
+ Note that the yaml file refers to the properties file.
+**** 1) neo4j-smsn.properties
+ ~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/neo4j-smsn.properties
+ It tells Neo4j where to store its data, and configures the store.
+**** 2) gremlin-server-smsn.yaml
+ ~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/gremlin-server-smsn.yaml
+   (it's also in docker-smsn)
+ It tells Gremlin Server to use the Neo4j graph you configured in (1).
+*** infer from the docker-smsn Dockerfile how to use those config files
+** failed: using the smsn Dockerfile
 * important folders and websites
 ** greskell
 ~/code/haskell-libs/greskell

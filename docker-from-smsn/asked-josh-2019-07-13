@@ -1,0 +1,19 @@
+Hello again!
+
+I'm trying to get Greskell working. For that I've referred to our docker-smsn Dockerfile[1]. It never installs neo4j! It only installs a neo4j plugin for Gremlin. Do I understand correctly, that there's no separate (outside-of-Gremlin) installation needed for neo4j needed?
+
+Here's the relevant passage from the Dockerfile:
+
+# gremlin: install, and build the neo4j plugin for it
+WORKDIR /root
+COPY apache-tinkerpop-gremlin-server-3.2.5 /root/apache-tinkerpop-gremlin-server-3.2.5
+WORKDIR /root/apache-tinkerpop-gremlin-server-3.2.5
+RUN ln -s /root/apache-tinkerpop-gremlin-server-3.2.5 /root/gremlin
+COPY grapeConfig.xml /root/.groovy/grapeConfig.xml
+RUN /root/gremlin/bin/gremlin-server.sh -i org.apache.tinkerpop neo4j-gremlin 3.2.5
+
+Also, do you know why the Dockerfile installs (not shown above) Grape and webpy?
+
+Here's that Dockerfile:
+
+[1] https://github.com/synchrony/docker-smsn/blob/master/Dockerfile
