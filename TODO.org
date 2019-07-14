@@ -1,6 +1,13 @@
-* important folders
+* important folders and websites
+** greskell
 ~/code/haskell-libs/greskell
-~/installs/
+https://hackage.haskell.org/package/greskell
+** haskell-neo4j-client
+/home/jeff/code/haskell-libs/neo4j-client
+https://hackage.haskell.org/package/haskell-neo4j-client-0.3.2.4/docs/Database-Neo4j.html#g:8
+** tinkerpop
+~/installs/apache-tinkerpop
+https://tinkerpop.apache.org/docs/3.4.2/reference/#gremlin-server
 * things I'll need
 ** read graph from file
 ** indexing
@@ -26,14 +33,6 @@ https://hackage.haskell.org/package/haskell-neo4j-client-0.3.2.4/docs/Database-N
   gremlin.neo4j.conf.relationship_auto_indexing=true
 *** OTOH smsn's code reaches into Neo4j too
 ~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
-* TODO try docker + greskell
-** docker run tinkerpop/gremlin-server:3.4.2
-There are many Gremlin Server docker images,
-but that  one is mentioned by the Tinkerpop docs:
-https://tinkerpop.apache.org/docs/3.4.2/reference/#gremlin-server
-** Run that, and then try this Greskell sample code
-section called "Submit to the Gremlin Server"
-https://github.com/debug-ito/greskell/blob/master/README.md
 * what I installed
 Nothing outside of
   installs/apache-tinkerpop 
@@ -47,3 +46,11 @@ https://issues.apache.org/jira/secure/WelcomeToJIRA.jspa
 gmail
 jeffbrown
 pharoagletmypplgo
+* haskell libraries, pros and cons
+** for Neo4j
+hasbolt is for Neo4j 3.x
+haskell-neo4j-client is for Neo4j 2.x
+** for Gremlin
+according to Josh:
+  Greskell is a full traversal language
+  Gremlin-Haskell somehow is not that
