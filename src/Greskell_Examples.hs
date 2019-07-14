@@ -24,8 +24,8 @@ plusTen x = do
   var_x <- newBind x
   return $ var_x + 10
 
-main :: IO ()
-main = hspec $ specify "submit" $ do
+submitToGremlinServer :: IO ()
+submitToGremlinServer = hspec $ specify "submit" $ do
   egot <- try submitExample :: IO (Either SomeException [Int])
   case egot of
     Left _ ->
