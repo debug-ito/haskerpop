@@ -1,0 +1,49 @@
+* important folders
+~/code/haskell-libs/greskell
+~/installs/
+* things I'll need
+** read graph from file
+** indexing
+* from Josh: Q: to expose a graph through Gremlin Server
+A: Have a look at:
+    1) neo4j-smsn.properties, which tells Neo4j where to store its data, and configures the store
+    2) gremlin-server-smsn.yaml, which tells Gremlin Server to use the Neo4j graph you configured in (1)
+You can then access the graph through Gremlin Server using an HTTP or a WebSocket client, a la smsn-websocket.el
+You can also access the Neo4j graph programmatically, but not while Gremlin Server is also running.
+* use neo4j directly for controlling indexes
+** all Neo4j asks (lately) is that you specify which indexes to maintain
+It doesn't need you to maintain them -- it'll figure that out.
+https://neo4j.com/docs/cypher-manual/current/schema/index/
+** haskell-neo4j-client seems to provide all (3 of) those operations
+https://hackage.haskell.org/package/haskell-neo4j-client-0.3.2.4/docs/Database-Neo4j.html#g:8
+** but maybe it can be entirely automatic -- smsn's config file suggests so
+*** the neo4j config file that smsn uses
+**** ~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
+**** it's four lines
+  gremlin.neo4j.directory=/mnt/smsn-data/neo4j # CHANGE ME: this is a permanent directory for your graph data.
+  gremlin.graph=org.apache.tinkerpop.gremlin.neo4j.structure.Neo4jGraph
+  gremlin.neo4j.conf.node_auto_indexing=true
+  gremlin.neo4j.conf.relationship_auto_indexing=true
+*** OTOH smsn's code reaches into Neo4j too
+~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
+* TODO try docker + greskell
+** docker run tinkerpop/gremlin-server:3.4.2
+There are many Gremlin Server docker images,
+but that  one is mentioned by the Tinkerpop docs:
+https://tinkerpop.apache.org/docs/3.4.2/reference/#gremlin-server
+** Run that, and then try this Greskell sample code
+section called "Submit to the Gremlin Server"
+https://github.com/debug-ito/greskell/blob/master/README.md
+* what I installed
+Nothing outside of
+  installs/apache-tinkerpop 
+* creds
+** Overleaf
+(Josh shared a pdf through this service.)
+gmail
+gunawqlg8fdaht
+** tinkerpop issue tracker
+https://issues.apache.org/jira/secure/WelcomeToJIRA.jspa
+gmail
+jeffbrown
+pharoagletmypplgo
