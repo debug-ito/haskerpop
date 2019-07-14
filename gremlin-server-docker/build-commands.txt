@@ -1,0 +1,24 @@
+# The official (?) apache image
+
+docker run --name gremlin -p 8182:8182 tinkerpop/gremlin-server:3.4.2
+
+
+# Mine
+  ## build
+    sudo docker build -f Dockerfile -t     \
+      jeffreybbrown/gremlin:untested .     \
+      | tee logs/"build-log.`date`.txt"
+
+  ## run
+    sudo docker run --name gremlin -it \
+      -p 8182:8182 -d -h 127.0.0.1 jeffreybbrown/gremlin:no-neo4j
+      # -v /home/jeff/Encfs/kb-not-encfs:/mnt/smsn-data 
+
+  ## visit
+    sudo docker exec -it gremlin bash
+
+  ## tag
+    sudo docker tag jeffreybbrown/gremlin:untested \
+                    jeffreybbrown/gremlin:$(date +"%m-%d-%y")
+    sudo docker tag jeffreybbrown/gremlin:untested \
+                    jeffreybbrown/gremlin:no-neo4j

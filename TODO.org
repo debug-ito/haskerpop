@@ -1,10 +1,24 @@
+* TODO configure Gremlin Server to use neo4j
+** DONE clone https://github.com/apache/tinkerpop/
+** DONE use the gremlin-server folder in it
+** add (after modifying) config files from smsn
+Note that the yaml file refers to the properties file.
+*** 1) neo4j-smsn.properties
+~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/neo4j-smsn.properties
+It tells Neo4j where to store its data, and configures the store.
+*** 2) gremlin-server-smsn.yaml
+~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/gremlin-server-smsn.yaml
+  (it's also in docker-smsn)
+It tells Gremlin Server to use the Neo4j graph you configured in (1).
+** infer from the docker-smsn Dockerfile how to use those config files
 * important folders and websites
 ** greskell
 ~/code/haskell-libs/greskell
 https://hackage.haskell.org/package/greskell
-** haskell-neo4j-client
-/home/jeff/code/haskell-libs/neo4j-client
-https://hackage.haskell.org/package/haskell-neo4j-client-0.3.2.4/docs/Database-Neo4j.html#g:8
+** hasbolt
+~/code/haskell-libs/hasbolt
+https://neo4j.com/developer/haskell/
+https://hackage.haskell.org/package/hasbolt
 ** tinkerpop
 ~/installs/apache-tinkerpop
 https://tinkerpop.apache.org/docs/3.4.2/reference/#gremlin-server
@@ -35,7 +49,7 @@ https://hackage.haskell.org/package/haskell-neo4j-client-0.3.2.4/docs/Database-N
 ~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
 * what I installed
 Nothing outside of
-  installs/apache-tinkerpop 
+  installs/apache-tinkerpop
 * creds
 ** Overleaf
 (Josh shared a pdf through this service.)
