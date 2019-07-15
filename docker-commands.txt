@@ -1,7 +1,9 @@
 # The official (?) apache image
 
-docker run --name gremlin -p 45940:8182 jeffreybbrown/gremlin:untested
-# docker run --name gremlin -p 8182:8182 tinkerpop/gremlin-server:3.4.2
+docker run --name gremlin -p 8182:8182      \
+  -it -v /home/jeff/haskerpop/docker-3:/mnt \
+  --entrypoint "/bin/bash"                  \
+  tinkerpop/gremlin-server:3.4.2
 
 
 # Mine
@@ -13,7 +15,7 @@ docker run --name gremlin -p 45940:8182 jeffreybbrown/gremlin:untested
   ## run
     sudo docker run --name gremlin -it \
       -p 8182:8182 -d -h 127.0.0.1 jeffreybbrown/gremlin:no-neo4j
-      # -v /home/jeff/Encfs/kb-not-encfs:/mnt/smsn-data 
+      # -v /home/jeff/Encfs/kb-not-encfs:/mnt/smsn-data
 
   ## visit
     sudo docker exec -it gremlin bash

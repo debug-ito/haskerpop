@@ -5,7 +5,14 @@ Enter Bash in the official gserver Dockerfile,
   mounting a folder with useful stuff.
 Copy things around.
 Try `submitToGremlinServer` until it works.
-*** experimental records
+*** discoveries
+**** important folder in Docker image
+/opt/gremlin-server/bin/
+  gremlin-server.bat
+  gremlin-server.conf
+  gremlin-server.sh
+**** how smsn runs gserver, minus logging
+bash /root/gremlin/bin/gremlin-server.sh <place>/gremlin-server-smsn.yaml
 ** failed: using tinkerpop gremlin-server source
 *** DONE clone https://github.com/apache/tinkerpop/
 *** DONE use the gremlin-server folder in it
@@ -20,6 +27,7 @@ Try `submitToGremlinServer` until it works.
  It tells Gremlin Server to use the Neo4j graph you configured in (1).
 *** infer from the docker-smsn Dockerfile how to use those config files
 ** failed: using the smsn Dockerfile
+* TODO add logging
 * important folders and websites
 ** greskell
 ~/code/haskell-libs/greskell
