@@ -1,27 +1,28 @@
-# The official (?) apache image
+# run
+  docker run --name gremlin -p 8182:8182      \
+    -u root                                   \
+    -it -v /home/jeff/haskerpop/docker-3:/mnt \
+    --entrypoint "/bin/bash"                  \
+    tinkerpop/gremlin-server:3.4.2
 
-docker run --name gremlin -p 8182:8182      \
-  -it -v /home/jeff/haskerpop/docker-3:/mnt \
-  --entrypoint "/bin/bash"                  \
-  tinkerpop/gremlin-server:3.4.2
+  docker run --name gremlin -p 8182:8182      \
+    -it -v /home/jeff/haskerpop/docker-3:/mnt \
+    tinkerpop/gremlin-server:3.4.2
 
+  docker run --name gremlin -p 8182:8182      \
+    -it -v /home/jeff/haskerpop/docker-3:/mnt \
+    tinkerpop/gremlin-server:3.4.2
 
-# Mine
-  ## build
-    sudo docker build -f Dockerfile -t     \
-      jeffreybbrown/gremlin:untested .     \
+# build
+  docker build -f Dockerfile -t          \
+      jeffreybbrown/gremlin:with-neo4j . \
       | tee logs/"build-log.`date`.txt"
 
-  ## run
-    sudo docker run --name gremlin -it \
-      -p 8182:8182 -d -h 127.0.0.1 jeffreybbrown/gremlin:no-neo4j
-      # -v /home/jeff/Encfs/kb-not-encfs:/mnt/smsn-data
+# visit
+  docker exec -it gremlin bash
 
-  ## visit
-    sudo docker exec -it gremlin bash
-
-  ## tag
-    sudo docker tag jeffreybbrown/gremlin:untested \
-                    jeffreybbrown/gremlin:$(date +"%m-%d-%y")
-    sudo docker tag jeffreybbrown/gremlin:untested \
-                    jeffreybbrown/gremlin:from-src
+# tag
+  docker tag jeffreybbrown/gremlin:untested \
+             jeffreybbrown/gremlin:$(date +"%m-%d-%y")
+  docker tag jeffreybbrown/gremlin:untested \
+             jeffreybbrown/gremlin:from-src

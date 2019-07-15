@@ -1,5 +1,3 @@
-# Example Gremlin Server configuration file for use with SmSn
-
 host: localhost
 port: 8182
 scriptEvaluationTimeout: 300000
@@ -8,18 +6,13 @@ scriptEvaluationTimeout: 300000
 #channelizer: org.apache.tinkerpop.gremlin.server.channel.HttpChannelizer
 
 graphs: {
-  graph: conf/neo4j-smsn.properties}
+  graph: /mnt/config/neo4j.properties}
 plugins:
   - tinkerpop.neo4j
-  - smsn
 scriptEngines: {
-  smsn: {
-    scripts: [conf/smsn.yaml]
-  },
   gremlin-groovy: {
     imports: [java.lang.Math],
-    staticImports: [java.lang.Math.PI],
-    scripts: [scripts/empty-sample.groovy]}}
+    staticImports: [java.lang.Math.PI] }}
 serializers:
   - { className: org.apache.tinkerpop.gremlin.driver.ser.GryoMessageSerializerV1d0, configuration: { useMapperFromGraph: graph }}            # application/vnd.gremlin-v1.0+gryo
   - { className: org.apache.tinkerpop.gremlin.driver.ser.GryoLiteMessageSerializerV1d0, configuration: { useMapperFromGraph: graph }}        # application/vnd.gremlin-v1.0+gryo-lite

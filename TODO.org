@@ -13,6 +13,28 @@ Try `submitToGremlinServer` until it works.
   gremlin-server.sh
 **** how smsn runs gserver, minus logging
 bash /root/gremlin/bin/gremlin-server.sh <place>/gremlin-server-smsn.yaml
+*** docker-3/ : what I tried
+**** copy, edit smsn config files
+in gremlin-server.yaml, delete
+  all references to smsn
+  the reference to scripts/empty-sample.groovy
+in neo4j.properties
+  change the graph location to /mnt/data
+**** TODO Is it a problem that /mnt/data is empty?
+**** make a custom Docker image
+it's simple; see docker-3/Dockerfile
+**** run it as root
+docker run --name gremlin -p 8182:8182        \
+    -u root                                   \
+    -it -v /home/jeff/haskerpop/docker-3:/mnt \
+    --entrypoint "/bin/bash"                  \
+    tinkerpop/gremlin-server:3.4.2
+**** provide a weird entrypoint
+at /mnt/docker-entrypoint.sh
+It doesn't substitute for the IP address.
+(I tried the one that does, it doesn't work either.)
+**** what to run from within the container
+/mnt/docker-entrypoint.sh /mnt/config/gremlin-server.yaml
 ** failed: using tinkerpop gremlin-server source
 *** DONE clone https://github.com/apache/tinkerpop/
 *** DONE use the gremlin-server folder in it
