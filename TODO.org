@@ -23,18 +23,18 @@ in neo4j.properties
 **** TODO Is it a problem that /mnt/data is empty?
 **** make a custom Docker image
 it's simple; see docker-3/Dockerfile
-**** run it as root
+**** enter bash in the container as root
 docker run --name gremlin -p 8182:8182        \
     -u root                                   \
     -it -v /home/jeff/haskerpop/docker-3:/mnt \
     --entrypoint "/bin/bash"                  \
     tinkerpop/gremlin-server:3.4.2
-**** provide a weird entrypoint
-at /mnt/docker-entrypoint.sh
-It doesn't substitute for the IP address.
-(I tried the one that does, it doesn't work either.)
-**** what to run from within the container
-/mnt/docker-entrypoint.sh /mnt/config/gremlin-server.yaml
+**** run gremlin-server
+My preferred way:
+  /opt/gremlin-server/bin/gremlin-server.sh /mnt/config/gremlin-server.yaml
+
+The normal entrypoint does some IP substitution. It doesn't work either.
+  /docker-entrypoint.sh /mnt/config/gremlin-server.yaml
 ** failed: using tinkerpop gremlin-server source
 *** DONE clone https://github.com/apache/tinkerpop/
 *** DONE use the gremlin-server folder in it
