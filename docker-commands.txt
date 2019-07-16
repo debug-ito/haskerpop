@@ -3,11 +3,7 @@
     -u root                                   \
     -it -v /home/jeff/haskerpop/docker-3:/mnt \
     --entrypoint "/bin/bash"                  \
-    tinkerpop/gremlin-server:3.4.2
-
-  docker run --name gremlin -p 8182:8182      \
-    -it -v /home/jeff/haskerpop/docker-3:/mnt \
-    tinkerpop/gremlin-server:3.4.2
+    jeffreybbrown/gremlin:with-neo4j
 
   docker run --name gremlin -p 8182:8182      \
     -it -v /home/jeff/haskerpop/docker-3:/mnt \
