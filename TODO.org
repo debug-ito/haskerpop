@@ -1,3 +1,28 @@
+* how to run the server from bash in the docker container
+Don't use bin/gremlin-server.sh directly
+Instead, from /opt/gremlin-server, run:
+/docker-entrypoint.sh conf/gremlin-server-jbb.yaml
+* TODO indexing: not really working
+I can index on exactly one thing,
+gremlin.neo4j.conf.dbms.auto_index.nodes.keys=name,date
+  # works:         =name
+  # works:         = name date
+  # works:         = name (name date)
+  # works:         = name [name date]
+  # does not work: = name, date
+  # does not work: = name , date
+  # does not work: =name,status
+  # does not work: =[name,status]
+  # does not work: ={name,status}
+  # does not work: =(name,status)
+  # Also a comma-separated list with one item per line doesn't work,
+  #  whether the commas are trailing or leading.
+  # This throws no errors, which makes me think it doesn't get read:
+  #   =
+  #     name
+  #     status
+  #     (name, status)
+  #     -[]x,x
 * TODO comm, pending
 Report to Josh and to debug-ito whether I can get Neo4j & indexing working.
 https://github.com/debug-ito/greskell/issues/3

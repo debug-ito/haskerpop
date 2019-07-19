@@ -1,9 +1,8 @@
 # run
-  docker run --name gremlin -p 8182:8182      \
-    -u root                                   \
-    -it -v /home/jeff/haskerpop/docker-3:/mnt \
+  docker run -it --name gremlin -p 8182:8182  \
+    -v /home/jeff/haskerpop/docker-4-from-gserver-container:/mnt \
     --entrypoint "/bin/bash"                  \
-    jeffreybbrown/gremlin:with-neo4j
+    jeffreybbrown/gremlin-server:with-neo4j
 
   docker run --name gremlin -p 8182:8182      \
     -it -v /home/jeff/haskerpop/docker-3:/mnt \
