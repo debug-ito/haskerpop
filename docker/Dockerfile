@@ -9,3 +9,4 @@ COPY config/gremlin-server-jbb.yaml config/neo4j-jbb.properties \
   /opt/gremlin-server/conf/
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["/opt/gremlin-server/conf/gremlin-server-jbb.yaml"]
+  # CMD provides the argument to ENTRYPOINT
