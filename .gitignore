@@ -1,4 +1,6 @@
 git-comment*
 *~
 .stack-work/
+stack.yaml.lock
 _hiding
+mnt/
