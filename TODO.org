@@ -2,8 +2,10 @@
 Don't use bin/gremlin-server.sh directly
 Instead, from /opt/gremlin-server, run:
 /docker-entrypoint.sh conf/gremlin-server-jbb.yaml
-* TODO indexing: not really working
-I can index on exactly one thing,
+* TODO ? is indexing working
+** some neo4j.properties settings I tried
+See also docker/config/*.properties
+I seem able to index on exactly one thing,
 gremlin.neo4j.conf.dbms.auto_index.nodes.keys=name,date
   # works:         =name
   # works:         = name date
@@ -23,69 +25,10 @@ gremlin.neo4j.conf.dbms.auto_index.nodes.keys=name,date
   #     status
   #     (name, status)
   #     -[]x,x
-* TODO comm, pending
-Report to Josh and to debug-ito whether I can get Neo4j & indexing working.
+** TODO comm, pending
+Once it works, report to debug-ito:
 https://github.com/debug-ito/greskell/issues/3
-* TODO configure Gremlin Server to use neo4j
-** TODO docker 4 : using tinkerpop gremlin-server Docker image
-** DONE failed: docker-3 = using both
-*** experimental strategy
-Enter Bash in the official gserver Dockerfile,
-  mounting a folder with useful stuff.
-Copy things around.
-Try `submitToGremlinServer` until it works.
-*** discoveries
-**** important folder in Docker image
-/opt/gremlin-server/bin/
-  gremlin-server.bat
-  gremlin-server.conf
-  gremlin-server.sh
-**** how smsn runs gserver, minus logging
-bash /root/gremlin/bin/gremlin-server.sh <place>/gremlin-server-smsn.yaml
-**** TODO the official image seems to use these config files
-This command (twice invoking gremlin-server.sh) is from
-docker-from-gserver-src/docker-entrypoint.sh
-
-/opt/gremlin-server/bin/gremlin-server.sh conf/gremlin-server-integration.yaml &
-exec /opt/gremlin-server/bin/gremlin-server.sh conf/gremlin-server-integration-secure.yaml
-*** what I did, how it turned out
-**** copy, edit smsn config files
-in gremlin-server.yaml, delete
-  all references to smsn
-  the reference to scripts/empty-sample.groovy
-in neo4j.properties
-  change the graph location to /mnt/data
-**** TODO Is it a problem that /mnt/data is empty?
-**** make a custom Docker image
-it's simple; see docker-3/Dockerfile
-**** enter bash in the container as root
-docker run --name gremlin -p 8182:8182        \
-    -u root                                   \
-    -it -v /home/jeff/haskerpop/docker-3:/mnt \
-    --entrypoint "/bin/bash"                  \
-    tinkerpop/gremlin-server:3.4.2
-**** run gremlin-server
-My preferred way:
-  /opt/gremlin-server/bin/gremlin-server.sh /mnt/config/gremlin-server.yaml
-
-The normal entrypoint does some IP substitution. It doesn't work either.
-  /docker-entrypoint.sh /mnt/config/gremlin-server.yaml
-**** either way, the config files are not understood
-** DONE failed: using tinkerpop gremlin-server source
-*** DONE clone https://github.com/apache/tinkerpop/
-*** DONE use the gremlin-server folder in it
-*** add (after modifying) config files from smsn
- Note that the yaml file refers to the properties file.
-**** 1) neo4j-smsn.properties
- ~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/neo4j-smsn.properties
- It tells Neo4j where to store its data, and configures the store.
-**** 2) gremlin-server-smsn.yaml
- ~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/gremlin-server-smsn.yaml
-   (it's also in docker-smsn)
- It tells Gremlin Server to use the Neo4j graph you configured in (1).
-*** infer from the docker-smsn Dockerfile how to use those config files
-** DONE failed: using the smsn Dockerfile
-* TODO add logging
+* TODO read/write a graph
 * important folders and websites
 ** greskell
 ~/code/haskell-libs/greskell
@@ -97,39 +40,10 @@ https://hackage.haskell.org/package/hasbolt
 ** tinkerpop
 ~/installs/apache-tinkerpop
 https://tinkerpop.apache.org/docs/current/reference/
-* things I'll need
-** read graph from file
-** indexing
-* from Josh: Q: to expose a graph through Gremlin Server
-A: Have a look at:
-    1) neo4j-smsn.properties, which tells Neo4j where to store its data, and configures the store
-    2) gremlin-server-smsn.yaml, which tells Gremlin Server to use the Neo4j graph you configured in (1)
-You can then access the graph through Gremlin Server using an HTTP or a WebSocket client, a la smsn-websocket.el
-You can also access the Neo4j graph programmatically, but not while Gremlin Server is also running.
-* use neo4j directly for controlling indexes
-** all Neo4j asks (lately) is that you specify which indexes to maintain
-It doesn't need you to maintain them -- it'll figure that out.
-https://neo4j.com/docs/cypher-manual/current/schema/index/
-** haskell-neo4j-client seems to provide all (3 of) those operations
-https://hackage.haskell.org/package/haskell-neo4j-client-0.3.2.4/docs/Database-Neo4j.html#g:8
-** but maybe it can be entirely automatic -- smsn's config file suggests so
-*** the neo4j config file that smsn uses
-**** ~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
-**** it's four lines
-  gremlin.neo4j.directory=/mnt/smsn-data/neo4j # CHANGE ME: this is a permanent directory for your graph data.
-  gremlin.graph=org.apache.tinkerpop.gremlin.neo4j.structure.Neo4jGraph
-  gremlin.neo4j.conf.node_auto_indexing=true
-  gremlin.neo4j.conf.relationship_auto_indexing=true
-*** OTOH smsn's code reaches into Neo4j too
-~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
 * what I installed
 Nothing outside of
-  installs/apache-tinkerpop
+  installs/gremlin*
 * creds
-** Overleaf
-(Josh shared a pdf through this service.)
-gmail
-gunawqlg8fdaht
 ** tinkerpop issue tracker
 https://issues.apache.org/jira/secure/WelcomeToJIRA.jspa
 gmail
@@ -143,3 +57,20 @@ haskell-neo4j-client is for Neo4j 2.x
 according to Josh:
   Greskell is a full traversal language
   Gremlin-Haskell somehow is not that
+* probably stale
+** using neo4j directly for controlling indexes
+*** all Neo4j asks (lately) is that you specify which indexes to maintain
+ It doesn't need you to maintain them -- it'll figure that out.
+ https://neo4j.com/docs/cypher-manual/current/schema/index/
+*** haskell-neo4j-client seems to provide all (3 of) those operations
+ https://hackage.haskell.org/package/haskell-neo4j-client-0.3.2.4/docs/Database-Neo4j.html#g:8
+*** but maybe it can be entirely automatic -- smsn's config file suggests so
+**** the neo4j config file that smsn uses
+***** ~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
+***** it's four lines
+   gremlin.neo4j.directory=/mnt/smsn-data/neo4j # CHANGE ME: this is a permanent directory for your graph data.
+   gremlin.graph=org.apache.tinkerpop.gremlin.neo4j.structure.Neo4jGraph
+   gremlin.neo4j.conf.node_auto_indexing=true
+   gremlin.neo4j.conf.relationship_auto_indexing=true
+**** OTOH smsn's code reaches into Neo4j too
+ ~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties

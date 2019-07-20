@@ -1,0 +1,59 @@
+* TODO configure Gremlin Server to use neo4j
+** TODO docker 4 : using tinkerpop gremlin-server Docker image
+** DONE failed: docker-3 = using both
+*** experimental strategy
+Enter Bash in the official gserver Dockerfile,
+  mounting a folder with useful stuff.
+Copy things around.
+Try `submitToGremlinServer` until it works.
+*** discoveries
+**** important folder in Docker image
+/opt/gremlin-server/bin/
+  gremlin-server.bat
+  gremlin-server.conf
+  gremlin-server.sh
+**** how smsn runs gserver, minus logging
+bash /root/gremlin/bin/gremlin-server.sh <place>/gremlin-server-smsn.yaml
+**** TODO the official image seems to use these config files
+This command (twice invoking gremlin-server.sh) is from
+docker-from-gserver-src/docker-entrypoint.sh
+
+/opt/gremlin-server/bin/gremlin-server.sh conf/gremlin-server-integration.yaml &
+exec /opt/gremlin-server/bin/gremlin-server.sh conf/gremlin-server-integration-secure.yaml
+*** what I did, how it turned out
+**** copy, edit smsn config files
+in gremlin-server.yaml, delete
+  all references to smsn
+  the reference to scripts/empty-sample.groovy
+in neo4j.properties
+  change the graph location to /mnt/data
+**** TODO Is it a problem that /mnt/data is empty?
+**** make a custom Docker image
+it's simple; see docker-3/Dockerfile
+**** enter bash in the container as root
+docker run --name gremlin -p 8182:8182        \
+    -u root                                   \
+    -it -v /home/jeff/haskerpop/docker-3:/mnt \
+    --entrypoint "/bin/bash"                  \
+    tinkerpop/gremlin-server:3.4.2
+**** run gremlin-server
+My preferred way:
+  /opt/gremlin-server/bin/gremlin-server.sh /mnt/config/gremlin-server.yaml
+
+The normal entrypoint does some IP substitution. It doesn't work either.
+  /docker-entrypoint.sh /mnt/config/gremlin-server.yaml
+**** either way, the config files are not understood
+** DONE failed: using tinkerpop gremlin-server source
+*** DONE clone https://github.com/apache/tinkerpop/
+*** DONE use the gremlin-server folder in it
+*** add (after modifying) config files from smsn
+ Note that the yaml file refers to the properties file.
+**** 1) neo4j-smsn.properties
+ ~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/neo4j-smsn.properties
+ It tells Neo4j where to store its data, and configures the store.
+**** 2) gremlin-server-smsn.yaml
+ ~/_stale,pre-2019-07/smsn+/smsn/smsn-server/doc/gremlin-server-smsn.yaml
+   (it's also in docker-smsn)
+ It tells Gremlin Server to use the Neo4j graph you configured in (1).
+*** infer from the docker-smsn Dockerfile how to use those config files
+** DONE failed: using the smsn Dockerfile

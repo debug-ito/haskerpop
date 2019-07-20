@@ -2,22 +2,23 @@
   docker run -it --name gremlin -p 8182:8182  \
     -v /home/jeff/haskerpop/docker-4-from-gserver-container:/mnt \
     --entrypoint "/bin/bash"                  \
-    jeffreybbrown/gremlin-server:with-neo4j
+    jeffreybbrown/gremlin-server:untested
 
   docker run --name gremlin -p 8182:8182      \
     -it -v /home/jeff/haskerpop/docker-3:/mnt \
+    jeffreybbrown/gremlin-server:untested
     tinkerpop/gremlin-server:3.4.2
 
 # build
-  docker build -f Dockerfile -t          \
-      jeffreybbrown/gremlin:with-neo4j . \
+  docker build -f Dockerfile -t        \
+      jeffreybbrown/gremlin-server:untested . \
       | tee logs/"build-log.`date`.txt"
 
 # visit
   docker exec -it gremlin bash
 
 # tag
-  docker tag jeffreybbrown/gremlin:untested \
-             jeffreybbrown/gremlin:$(date +"%m-%d-%y")
-  docker tag jeffreybbrown/gremlin:untested \
-             jeffreybbrown/gremlin:from-src
+  docker tag jeffreybbrown/gremlin-server:untested \
+             jeffreybbrown/gremlin-server:$(date +"%m-%d-%y")
+  docker tag jeffreybbrown/gremlin-server:untested \
+             jeffreybbrown/gremlin-server:from-src
