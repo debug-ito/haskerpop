@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
                   Greskell_Examples
+                , IndexTest
   other-modules:
       Paths_haskerpop
   hs-source-dirs:

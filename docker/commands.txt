@@ -1,8 +1,11 @@
 # run
   docker run -it --name gremlin -p 8182:8182  \
     -v /home/jeff/haskerpop/mnt:/mnt          \
+    --entrypoint "/bin/bash"                  \
     jeffreybbrown/gremlin-server:neo4j
-    # --entrypoint "/bin/bash"                  \
+  # if setting entrypoint manually, run the server
+  # from /opt/gremlin (that's ~) by calling
+  # /docker-entrypoint.sh conf/gremlin-server-jbb.yaml
 
 # build
   docker build -f Dockerfile -t               \

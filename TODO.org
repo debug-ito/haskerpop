@@ -4,10 +4,16 @@ Instead, from /opt/gremlin-server, run:
 /docker-entrypoint.sh conf/gremlin-server-jbb.yaml
 * TODO ? is indexing working
 ** TODO test speed
+*** basic routine
 Write two functions, "fill with ints" and "lookup int".
 fill with 2K ints , then measure the time to and then look up int 1K.
 fill with 200K ints, then measure the time to and then look up int 100K.
 If they're the same, it works.
+*** modification
+Use this line:
+gremlin.neo4j.conf.dbms.auto_index.nodes.keys=a b
+and run the speed test indexing on properties a, b and c.
+This will also answer the question of whether the list is space-separated.
 ** some neo4j.properties settings I tried
 See also docker/config/*.properties
 I seem able to index on exactly one thing,
