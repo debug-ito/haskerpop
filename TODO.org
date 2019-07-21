@@ -3,6 +3,11 @@ Don't use bin/gremlin-server.sh directly
 Instead, from /opt/gremlin-server, run:
 /docker-entrypoint.sh conf/gremlin-server-jbb.yaml
 * TODO ? is indexing working
+** TODO test speed
+Write two functions, "fill with ints" and "lookup int".
+fill with 2K ints , then measure the time to and then look up int 1K.
+fill with 200K ints, then measure the time to and then look up int 100K.
+If they're the same, it works.
 ** some neo4j.properties settings I tried
 See also docker/config/*.properties
 I seem able to index on exactly one thing,
@@ -25,9 +30,6 @@ gremlin.neo4j.conf.dbms.auto_index.nodes.keys=name,date
   #     status
   #     (name, status)
   #     -[]x,x
-** TODO comm, pending
-Once it works, report to debug-ito:
-https://github.com/debug-ito/greskell/issues/3
 * TODO read/write a graph
 * important folders and websites
 ** greskell
