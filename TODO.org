@@ -1,9 +1,13 @@
+* TODO awaiting responses
+https://github.com/debug-ito/greskell/issues/5
+https://www.reddit.com/r/haskell/comments/cg6its/does_anyone_use_greskell_its_a_haskell_library/
 * how to run the server from bash in the docker container
 Don't use bin/gremlin-server.sh directly
 Instead, from /opt/gremlin-server, run:
 /docker-entrypoint.sh conf/gremlin-server-jbb.yaml
 * TODO ? is indexing working
 ** TODO test speed
+*** TODO write properties
 *** basic routine
 Write two functions, "fill with ints" and "lookup int".
 fill with 2K ints , then measure the time to and then look up int 1K.

@@ -2,10 +2,12 @@
 
 module IndexTest where
 
-import Data.Function ((&))
+-- import Control.Category ((>>>))
 import Control.Exception.Safe (bracket, try, SomeException)
 import Data.Foldable (toList)
+import Data.Function ((&))
 
+import Data.Greskell.Greskell
 import Data.Greskell.GTraversal
 import Data.Greskell.Graph
 import Network.Greskell.WebSocket
@@ -26,10 +28,29 @@ runSideEffect script = try go where
       result_handle <- submit client script Nothing
       fmap toList $ slurpResults result_handle
 
-addPerson :: GTraversal SideEffect () AVertex
-addPerson = source "g" & sAddV "person"
-
 findPeople :: GTraversal Transform () AVertex
 findPeople =
   (source "g" & sV [] :: GTraversal Transform () AVertex)
   &. gHasLabel "person"
+
+-- | = How to set propeties?
+
+-- | I want this to add a person with "suchness" = n.
+-- It adds a person, but with no properties.
+addPerson :: Int -> GTraversal SideEffect () AVertex
+addPerson n = source "g" &
+              sAddV "person"
+              &. x (gProperty "suchness" $ valueInt n)
+  -- neither of these definitions of `x` does what I want
+  where x = id
+        -- x = gSideEffect
+
+-- | I want this to set property "suchness" = 33
+-- for every vertex in the graph. It changes nothing.
+suchness33ForEverybody :: GTraversal SideEffect () AVertex
+suchness33ForEverybody =
+  ( liftWalk ( source "g" & sV []
+               :: GTraversal Transform () AVertex )
+    :: GTraversal SideEffect () AVertex )
+  &. ( gProperty "suchness" ( 33 :: Greskell Int )
+       :: Walk SideEffect AVertex AVertex )
