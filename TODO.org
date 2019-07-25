@@ -1,6 +1,9 @@
-* TODO awaiting responses
-https://github.com/debug-ito/greskell/issues/5
-https://www.reddit.com/r/haskell/comments/cg6its/does_anyone_use_greskell_its_a_haskell_library/
+* TODO comm
+** sniff packets for Toshio
+The issue: https://github.com/debug-ito/greskell/issues/5
+Start Wireshark as root to get access to lo.
+If needed, resume at 37:40 in this video:
+  https://www.youtube.com/watch?v=Gbx9p1KQydo
 * how to run the server from bash in the docker container
 Don't use bin/gremlin-server.sh directly
 Instead, from /opt/gremlin-server, run:
@@ -86,3 +89,7 @@ according to Josh:
    gremlin.neo4j.conf.relationship_auto_indexing=true
 **** OTOH smsn's code reaches into Neo4j too
  ~/_stale,pre-2019-07/smsn+/docker-smsn/neo4j.properties
+* Greskell examples
+** net-spider isn't a good source
+Not for getting started adding vertices, at least.
+It's complicated, and it only uses addV once or twice.

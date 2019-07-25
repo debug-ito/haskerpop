@@ -1,8 +1,8 @@
-{-# LANGUAGE OverloadedStrings, QuasiQuotes, TypeFamilies #-}
+{-# LANGUAGE OverloadedStrings, QuasiQuotes, TypeFamilies, ScopedTypeVariables #-}
 
 module IndexTest where
 
--- import Control.Category ((>>>))
+import Control.Category ((>>>))
 import Control.Exception.Safe (bracket, try, SomeException)
 import Data.Foldable (toList)
 import Data.Function ((&))
@@ -10,6 +10,7 @@ import Data.Function ((&))
 import Data.Greskell.Greskell
 import Data.Greskell.GTraversal
 import Data.Greskell.Graph
+import Data.Greskell.GraphSON
 import Network.Greskell.WebSocket
 
 
@@ -19,10 +20,11 @@ import Network.Greskell.WebSocket
 -- runSideEffect addPerson
 -- runSideEffect $ liftWalk findPeople
 
-runSideEffect :: GTraversal SideEffect () AVertex
-             -> IO (Either SomeException [AVertex])
+runSideEffect :: forall a. FromGraphSON a
+              => GTraversal SideEffect () a
+              -> IO (Either SomeException [a])
 runSideEffect script = try go where
-  go :: IO [AVertex]
+  go :: IO [a]
   go =
     bracket (connect "localhost" 8182) close $ \client -> do
       result_handle <- submit client script Nothing
@@ -32,6 +34,12 @@ findPeople :: GTraversal Transform () AVertex
 findPeople =
   (source "g" & sV [] :: GTraversal Transform () AVertex)
   &. gHasLabel "person"
+
+findPeopleProperties =
+  ( source "g" & sV' [] )
+  &. ( gHasLabel "person"
+       >>> gProperties [] )
+
 
 -- | = How to set propeties?
 
