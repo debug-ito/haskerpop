@@ -8,14 +8,21 @@ How I generated these packets:
 * Start gremlin server (from the docker container).
   This produced the first 4 frames in wireshark.
 * Start gremlin console (from outside the docker container).
-* :remote connect tinkerpop.server conf/remote.yaml
-  This produced frames 5-22.
-* :> g.V().hasLabel("person")
-  Frames 23-26.
-* :> g.addV("person").property("suchness",11)
-  Frames 27-34.
-* :> g.V().hasLabel("person")
-  Frames 35-40.
+* `:remote connect tinkerpop.server conf/remote.yaml`
+
+This produced frames 5-22.
+
+* `:> g.V().hasLabel("person")`
+
+Frames 23-26.
+
+* `:> g.addV("person").property("suchness",11)`
+
+ Frames 27-34.
+
+* `:> g.V().hasLabel("person")`
+
+Frames 35-40.
 
 By the end of that, the following was displayed in the gremlin console:
 ```groovy
