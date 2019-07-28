@@ -1,3 +1,18 @@
+# Discussions that might obsolete some of this understanding
+
+## Tinkerpop issue (closed): property omission appears to be intentional.
+https://issues.apache.org/jira/browse/TINKERPOP-1909?jql=text%20~%20%22properties%20graphson%22
+
+## Me asking Gremlin Users if I understand correctly.
+https://groups.google.com/forum/#!topic/gremlin-users/KKsnhMY5yJE
+
+## Greskell issues
+https://github.com/debug-ito/greskell/issues/6
+  open, latest
+https://github.com/debug-ito/greskell/issues/5
+  closed
+
+
 # Problem: No properties key in GraphSON data
 
 Responses to my requests for data from Neo4j through Gremlin Server do not include `properties` keys. This is, according to Toshio Ito (who wrote Greskell, the library for using Gremlin from Haskell), [a violation of GraphSon format](https://github.com/debug-ito/greskell/issues/6).

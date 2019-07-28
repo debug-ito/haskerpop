@@ -38,7 +38,14 @@ findPeople =
 findPeopleProperties =
   ( source "g" & sV' [] )
   &. ( gHasLabel "person"
-       >>> gProperties [] )
+       >>> gProperties []
+     )
+
+findPeopleValues props =
+  ( source "g" & sV' [] )
+  &. ( gHasLabel "person"
+       >>> gValues props
+     )
 
 
 -- | = How to set propeties?
