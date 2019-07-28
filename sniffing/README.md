@@ -1,4 +1,4 @@
-# The problem: No properties key in GraphSON data
+# Problem: No properties key in GraphSON data
 
 Responses to my requests for data from Neo4j through Gremlin Server do not include `properties` keys. This is, according to Toshio Ito (who wrote Greskell, the library for using Gremlin from Haskell), [a violation of GraphSon format](https://github.com/debug-ito/greskell/issues/6).
 
@@ -21,7 +21,7 @@ The problem is perhaps clearer still from packet 41 of the WebSocket capture (th
 ```
 
 
-# How I generated these packets:
+# Process details: How I generated these packets
 
 * Delete the neo4j repository.
 * Start wireshark (listening to docker0).
@@ -36,7 +36,7 @@ the only change being that it is configured to use Neo4j.
 
 * `:remote connect tinkerpop.server conf/remote.yaml`
     * This produced frames 11-26.
-    * The `remote.yaml` file I used to connect contains the following logic:
+    * The `remote.yaml` file I used to connect contains nothing but the following assignments:
 ```yaml
 hosts: [localhost]
 port: 8182
