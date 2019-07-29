@@ -1,3 +1,29 @@
+* PITFALLS in Greskell
+** A more general type signature can cause values to be omitted.
+For instance, if I define this:
+
+    findPeopleProperties :: [Key AVertex Int]
+      -> GTraversal Transform () (AVertexProperty Int)
+    findPeopleProperties props =
+      ( source "g" & sV' [] )
+      &. ( gHasLabel "person"
+           >>> gProperties props
+         )
+
+it gives me the value (11):
+
+    > runSideEffect $ liftWalk $ findPeopleProperties []
+    Right [AVertexProperty {avpId = GValue {unGValue = GraphSON {gsonType = Just "g:Int64", gsonValue = GNumber -2.042816215e9}}, avpLabel = "suchness", avpValue = 11, avpProperties = PropertyMapSingle (PropertyMapGeneric (fromList []))}]
+
+but if I write the type signature more generally:
+
+    findPeopleProperties :: [Key AVertex d]
+      -> GTraversal Transform () (AVertexProperty d)
+
+without changing the logic, it returns something with an avpValue of ():
+
+    > runSideEffect $ liftWalk $ findPeopleProperties []
+    Right [AVertexProperty {avpId = GValue {unGValue = GraphSON {gsonType = Just "g:Int64", gsonValue = GNumber -2.042816215e9}}, avpLabel = "suchness", avpValue = (), avpProperties = PropertyMapSingle (PropertyMapGeneric (fromList []))}]
 * TODO comm
 ** sniff packets for Toshio
 The issue: https://github.com/debug-ito/greskell/issues/5
