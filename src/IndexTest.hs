@@ -13,6 +13,11 @@ import Data.Greskell.Graph
 import Data.Greskell.GraphSON
 import Network.Greskell.WebSocket
 
+main :: IO ()
+main = do
+  result <- runSideEffect $ liftWalk $ findPeopleValues []  --- :: IO (Either SomeException [Int])
+                                                            --- It compile with the above type notation.
+  print result
 
 -- | = Run searches and graph changes.
 
